@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Product Section -->
+        <section id="product">
+            <div class="product-info">
+                <img src="https://via.placeholder.com/300" alt="Product Image" class="product-image">
+                <div class="product-details">
+                    <h1 id="product-name">Product Name</h1>
+                    <p id="product-description">This is a short description of the product. It describes the features and benefits.</p>
+                    <p id="product-price">$49.99</p>
+                    <button id="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section id="reviews">
+            <h2>Customer Reviews</h2>
+            <div id="reviews-list">
+                <!-- Review items will be injected here -->
+            </div>
+
+            <h3>Leave a Review</h3>
+            <form id="review-form">
+                <label for="username">Name:</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your name">
+
+                <label for="rating">Rating (1 to 5):</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" required placeholder="Rating from 1 to 5">
+
+                <label for="review-text">Review:</label>
+                <textarea id="review-text" name="review-text" required placeholder="Write your review here"></textarea>
+
+                <button type="submit">Submit Review</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
