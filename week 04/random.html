@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+blockquote {
+    font-size: 18px;
+    margin: 20px 0;
+    font-style: italic;
+    color: #555;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Quote Generator</h1>
+        <blockquote id="quoteDisplay">Click the button to generate a quote!</blockquote>
+        <button id="newQuoteButton">New Quote</button>
+    </div>
+    <script>
+        const quotes = [
+    "The only way to do great work is to love what you do. - Steve Jobs",
+    "Life is what happens when you're busy making other plans. - John Lennon",
+    "Get busy living or get busy dying. - Stephen King",
+    "You have within you right now, everything you need to deal with whatever the world can throw at you. - Brian Tracy",
+    "Believe you can and you're halfway there. - Theodore Roosevelt",
+    "The purpose of our lives is to be happy. - Dalai Lama",
+    "Life is really simple, but we insist on making it complicated. - Confucius",
+    "In the end, we will remember not the words of our enemies, but the silence of our friends. - Martin Luther King Jr.",
+    "The best way to predict the future is to create it. - Peter Drucker",
+    "You miss 100% of the shots you don't take. - Wayne Gretzky"
+];
+
+document.getElementById('newQuoteButton').addEventListener('click', function() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    document.getElementById('quoteDisplay').textContent = quotes[randomIndex];
+});
+    </script>
+</body>
+</html>

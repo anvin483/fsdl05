@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polling System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultDisplay {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Polling System</h1>
+        <h2>What is your favorite programming language?</h2>
+        <div id="pollOptions">
+            <label>
+                <input type="radio" name="option" value="JavaScript"> JavaScript
+            </label>
+            <label>
+                <input type="radio" name="option" value="Python"> Python
+            </label>
+            <label>
+                <input type="radio" name="option" value="Java"> Java
+            </label>
+            <label>
+                <input type="radio" name="option" value="C#"> C#
+            </label>
+        </div>
+        <button id="voteButton">Vote</button>
+        <div id="results" style="display: none;">
+            <h3>Results:</h3>
+            <div id="resultDisplay"></div>
+            <h4 id="totalVotesDisplay"></h4>
+        </div>
+    </div>
+    <script>
+        const votes = {
+            "JavaScript": 0,
+            "Python": 0,
+            "Java": 0,
+            "C#": 0
+        };
+
+        document.getElementById('voteButton').addEventListener('click', function() {
+            const options = document.getElementsByName('option');
+            let selectedOption = null;
+
+            for (const option of options) {
+                if (option.checked) {
+                    selectedOption = option.value;
+                    break;
+                }
+            }
+
+            if (selectedOption) {
+                votes[selectedOption]++;
+                displayResults();
+            } else {
+                alert("Please select an option before voting.");
+            }
+        });
+
+        function displayResults() {
+            const resultDisplay = document.getElementById('resultDisplay');
+            const totalVotesDisplay = document.getElementById('totalVotesDisplay');
+            resultDisplay.innerHTML = '';
+
+            for (const [language, count] of Object.entries(votes)) {
+                const percentage = ((count / getTotalVotes()) * 100 || 0).toFixed(2);
+                resultDisplay.innerHTML += `<p>${language}: ${count} vote(s) (${percentage}%)</p>`;
+            }
+
+            // Display total votes
+            totalVotesDisplay.textContent = `Total Votes: ${getTotalVotes()}`;
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function getTotalVotes() {
+            return Object.values(votes).reduce((total, count) => total + count, 0);
+        }
+    </script>
+</body>
+</html>
