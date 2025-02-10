@@ -6,32 +6,36 @@
     <title>Registration Form</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #e9ecef;
             margin: 0;
         }
 
         .container {
-            text-align: center;
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
         }
 
         .form-group {
             margin-bottom: 15px;
-            text-align: left;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
+            color: #555;
         }
 
         input[type="text"],
@@ -40,7 +44,12 @@
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
         }
 
         .error {
@@ -57,11 +66,12 @@
             padding: 10px 15px;
             font-size: 16px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             background-color: #007bff;
             color: white;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         button:hover {
@@ -71,15 +81,15 @@
 </head>
 <body>
     <div class="container">
-        <h1>Registration Form</h1>
+        <h1>Create Account</h1>
         <form id="registrationForm">
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">Full Name:</label>
                 <input type="text" id="name" required>
                 <span class="error" id="nameError"></span>
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email">Email Address:</label>
                 <input type="email" id="email" required>
                 <span class="error" id="emailError"></span>
             </div>
@@ -114,13 +124,13 @@
 
             // Validate name
             if (name === "") {
-                showError('nameError', 'Name is required.');
+                showError('nameError', 'Full Name is required.');
                 isValid = false;
             }
 
             // Validate email
             if (email === "") {
-                showError('emailError', 'Email is required.');
+                showError('emailError', 'Email Address is required.');
                 isValid = false;
             } else if (!validateEmail(email)) {
                 showError('emailError', 'Invalid email format.');
@@ -132,11 +142,5 @@
                 showError('passwordError', 'Password is required.');
                 isValid = false;
             } else if (password.length < 6) {
-                showError('passwordError', 'Password must be at least 6 characters long.');
-                isValid = false;
+                
             }
-
-            // Validate confirm password
-            if (confirmPassword === "") {
-                showError('confirmPasswordError', 'Please confirm your password.');
-                is
