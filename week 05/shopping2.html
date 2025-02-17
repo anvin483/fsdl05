@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Store</title>
+    <style>
+        /* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 2rem;
+}
+
+header .logo h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+nav a:hover {
+    background-color: #ff5c5c;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.products, .cart {
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.products h2, .cart h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.product-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+    margin: 1rem;
+}
+
+.product-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.product-card p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.product-card button {
+    background-color: #ff5c5c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-card button:hover {
+    background-color: #e04e4e;
+}
+
+.cart-items {
+    margin-bottom: 2rem;
+}
+
+.cart-items p {
+    font-size: 1.2rem;
+}
+
+.cart .btn {
+    padding: 10px 20px;
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.cart .btn:hover {
+    background-color: #e04e4e;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 3rem;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>ShopNow</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#products">Products</a></li>
+                <li><a href="#cart">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Product Section -->
+    <section id="products" class="products">
+        <h2>Our Products</h2>
+        <div class="product-list">
+            <!-- Product items will be added dynamically with JS -->
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart" class="cart">
+        <h2>Your Cart</h2>
+        <div id="cart-items" class="cart-items">
+            <p>Your cart is empty!</p>
+        </div>
+        <button id="checkout" class="btn">Proceed to Checkout</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 ShopNow. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // List of products to display
+const products = [
+    { id: 1, name: "Laptop", price: 799 },
+    { id: 2, name: "Smartphone", price: 499 },
+    { id: 3, name: "Headphones", price: 150 },
+    { id: 4, name: "Smart Watch", price: 199 }
+];
+
+// Cart array to hold selected items
+let cart = [];
+
+// Function to render the product list
+function renderProducts() {
+    const productListContainer = document.querySelector('.product-list');
+    productListContainer.innerHTML = '';  // Clear existing products
+
+    products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+
+        productCard.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>$${product.price}</p>
+            <button onclick="addToCart(${product.id})">Add to Cart</button>
+        `;
+
+        productListContainer.appendChild(productCard);
+    });
+}
+
+// Function to add a product to the cart
+function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+
+    if (product) {
+        cart.push(product);
+        updateCartDisplay();
+    }
+}
+
+// Function to update the cart display
+function updateCartDisplay() {
+    const cartItemsContainer = document.getElementById('cart-items');
+    if (cart.length > 0) {
+        const cartContent = cart.map(item => `<p>${item.name} - $${item.price}</p>`).join('');
+        cartItemsContainer.innerHTML = cartContent;
+    } else {
+        cartItemsContainer.innerHTML = '<p>Your cart is empty!</p>';
+    }
+}
+
+// Handle Checkout button click
+document.getElementById('checkout').addEventListener('click', () => {
+    if (cart.length > 0) {
+        alert('Proceeding to checkout...');
+        cart = [];  // Clear the cart after checkout
+        updateCartDisplay();
+    } else {
+        alert('Your cart is empty!');
+    }
+});
+
+// Initialize the page
+renderProducts();
+
+    </script>
+</body>
+</html>

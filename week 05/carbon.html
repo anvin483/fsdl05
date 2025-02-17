@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Footprint Calculator</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #e9ecef;
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Carbon Footprint Calculator</h1>
+        <form id="calculatorForm">
+            <div class="form-group">
+                <label for="milesDriven">Miles Driven per Week:</label>
+                <input type="number" id="milesDriven" placeholder="Enter miles driven" required>
+            </div>
+            <div class="form-group">
+                <label for="electricityUsage">Electricity Usage (kWh per month):</label>
+                <input type="number" id="electricityUsage" placeholder="Enter kWh used" required>
+            </div>
+            <div class="form-group">
+                <label for="meatConsumption">Meat Consumption (pounds per week):</label>
+                <input type="number" id="meatConsumption" placeholder="Enter pounds of meat" required>
+            </div>
+            <button type="submit">Calculate Carbon Footprint</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        document.getElementById('calculatorForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Get input values
+    const milesDriven = parseFloat(document.getElementById('milesDriven').value);
+    const electricityUsage = parseFloat(document.getElementById('electricityUsage').value);
+    const meatConsumption = parseFloat(document.getElementById('meatConsumption').value);
+
+    // Carbon footprint calculations
+    const carbonFromDriving = milesDriven * 0.404; // Average CO2 emissions per mile driven
+    const carbonFromElectricity = electricityUsage * 0.92; // Average CO2 emissions per kWh
+    const carbonFromMeat = meatConsumption * 2.5; // Average CO2 emissions per pound of meat
+
+    // Total carbon footprint
+    const totalCarbonFootprint = carbonFromDriving + carbonFromElectricity + carbonFromMeat;
+
+    // Display result
+    document.getElementById('result').innerHTML = `
+        <h2>Your Estimated Carbon Footprint</h2>
+        <p>${totalCarbonFootprint.toFixed(2)} kg CO2 per week</p>
+    `;
+});
+    </script>
+</body>
+</html>

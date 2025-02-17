@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News App</title>
+    <style>
+        /* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 2rem;
+}
+
+header input {
+    padding: 10px;
+    font-size: 1rem;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+header button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #ff5c5c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #e04e4e;
+}
+
+main {
+    padding: 2rem;
+}
+
+#news-container {
+    margin-top: 2rem;
+}
+
+#news-container h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#news-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.news-item {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.news-item img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.news-item h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.news-item p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.news-item a {
+    color: #ff5c5c;
+    text-decoration: none;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 3rem;
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>NewsNow</h1>
+        </div>
+        <input type="text" id="search" placeholder="Search for news..." />
+        <button id="search-btn">Search</button>
+    </header>
+
+    <main>
+        <section id="news-container">
+            <h2>Latest News</h2>
+            <div id="news-list"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 NewsNow. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const apiKey = '80u5DQT9fylJICi0V1ZkH5xvZ4L-tYiVoo4sXx74SXBKVk1u'; // Currents API token
+const newsContainer = document.getElementById('news-list');
+const searchButton = document.getElementById('search-btn');
+const searchInput = document.getElementById('search');
+
+// Function to fetch news
+async function fetchNews(query = '') {
+    const url = `https://api.currentsapi.services/v1/latest-news?apiKey=${apiKey}&language=en${query ? `&search=${query}` : ''}`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.status === 'ok') {
+            displayNews(data.news);
+        } else {
+            alert('Failed to fetch news.');
+        }
+    } catch (error) {
+        console.error('Error fetching news:', error);
+    }
+}
+
+// Function to display news articles
+function displayNews(articles) {
+    newsContainer.innerHTML = ''; // Clear the current articles
+
+    articles.forEach(article => {
+        const newsItem = document.createElement('div');
+        newsItem.classList.add('news-item');
+
+        newsItem.innerHTML = `
+            <img src="${article.image || 'https://via.placeholder.com/400x200'}" alt="Image">
+            <h3>${article.title}</h3>
+            <p>${article.description || 'No description available.'}</p>
+            <a href="${article.url}" target="_blank">Read more</a>
+        `;
+
+        newsContainer.appendChild(newsItem);
+    });
+}
+
+// Event listener for search button
+searchButton.addEventListener('click', () => {
+    const query = searchInput.value.trim();
+    if (query) {
+        fetchNews(query); // Fetch news based on search query
+    }
+});
+
+// Initial fetch of top headlines
+fetchNews();
+
+
+    </script>
+</body>
+</html>

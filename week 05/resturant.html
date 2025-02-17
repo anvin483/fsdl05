@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Cart System</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu, .cart {
+    margin: 20px 0;
+}
+
+.menu-item, .cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.remove {
+    background-color: #dc3545;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Restaurant Menu</h1>
+        <div id="menu" class="menu"></div>
+        <h2>Your Cart</h2>
+        <div id="cart" class="cart"></div>
+        <div class="total">
+            <strong>Total: $<span id="total">0.00</span></strong>
+        </div>
+    </div>
+    <script>
+        const menuItems = [
+    { id: 1, name: "Burger", price: 5.99 },
+    { id: 2, name: "Pizza", price: 8.99 },
+    { id: 3, name: "Pasta", price: 7.99 },
+    { id: 4, name: "Salad", price: 4.99 },
+    { id: 5, name: "Soda", price: 1.99 },
+];
+
+let cart = [];
+
+function renderMenu() {
+    const menu = document.getElementById('menu');
+    menu.innerHTML = '';
+    menuItems.forEach(item => {
+        const menuItem = document.createElement('div');
+        menuItem.className = 'menu-item';
+        menuItem.innerHTML = `
+            <span>${item.name} - $${item.price.toFixed(2)}</span>
+            <button onclick="addToCart(${item.id})">Add to Cart</button>
+        `;
+        menu.appendChild(menuItem);
+    });
+}
+
+function addToCart(id) {
+    const item = menuItems.find(item => item.id === id);
+    const cartItem = cart.find(item => item.id === id);
+    if (cartItem) {
+        cartItem.quantity++;
+    } else {
+        cart.push({ ...item, quantity: 1 });
+    }
+    renderCart();
+}
+
+function removeFromCart(id) {
+    const cartItemIndex = cart.findIndex(item => item.id === id);
+    if (cartItemIndex > -1) {
+        cart[cartItemIndex].quantity--;
+        if (cart[cartItemIndex].quantity === 0) {
+            cart.splice(cartItemIndex, 1);
+        }
+    }
+    renderCart();
+}
+
+function renderCart() {
+    const cartDiv = document.getElementById('cart');
+    cartDiv.innerHTML = '';
+    let total = 0;
+
+    cart.forEach(item => {
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <span>${item.name} - $${item.price.toFixed(2)} x ${item.quantity}</span>
+            <button class="remove" onclick="removeFromCart(${item.id})">Remove</button>
+        `;
+        cartDiv.appendChild(cartItem);
+        total += item.price * item.quantity;
+    });
+
+    document.getElementById('total').innerText = total.toFixed(2);
+}
+
+renderMenu();
+    </script>
+</body>
+</html>

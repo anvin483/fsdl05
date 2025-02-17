@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVS (Environmental Studies) Dashboard</title>
+    <style>
+        /* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+}
+
+/* Header Section */
+header {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+}
+
+header p {
+    font-size: 1rem;
+    color: #ecf0f1;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.dashboard-card {
+    background-color: white;
+    padding: 20px;
+    width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    text-align: center;
+}
+
+.dashboard-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.info {
+    font-size: 1.2rem;
+}
+
+.value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.label {
+    font-size: 1rem;
+    color: #777;
+}
+
+/* Footer Section */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #2c3e50;
+    color: white;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Environmental Studies Dashboard</h1>
+        <p>Tracking Environmental Metrics for a Sustainable Future</p>
+    </header>
+
+    <div class="dashboard-container">
+        <!-- Air Quality Section -->
+        <div class="dashboard-card" id="air-quality">
+            <h2>Air Quality</h2>
+            <div class="info">
+                <div class="value" id="air-quality-value">Good</div>
+                <div class="label">Air Quality Index</div>
+            </div>
+        </div>
+
+        <!-- Carbon Footprint Section -->
+        <div class="dashboard-card" id="carbon-footprint">
+            <h2>Carbon Footprint</h2>
+            <div class="info">
+                <div class="value" id="carbon-footprint-value">300 kg CO2</div>
+                <div class="label">CO2 Emissions</div>
+            </div>
+        </div>
+
+        <!-- Renewable Energy Section -->
+        <div class="dashboard-card" id="renewable-energy">
+            <h2>Renewable Energy</h2>
+            <div class="info">
+                <div class="value" id="renewable-energy-value">45%</div>
+                <div class="label">Energy from Renewables</div>
+            </div>
+        </div>
+
+        <!-- Water Conservation Section -->
+        <div class="dashboard-card" id="water-conservation">
+            <h2>Water Conservation</h2>
+            <div class="info">
+                <div class="value" id="water-conservation-value">80%</div>
+                <div class="label">Water Conservation Rate</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 EVS Dashboard. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Simulating environmental data
+    const airQualityValue = document.getElementById("air-quality-value");
+    const carbonFootprintValue = document.getElementById("carbon-footprint-value");
+    const renewableEnergyValue = document.getElementById("renewable-energy-value");
+    const waterConservationValue = document.getElementById("water-conservation-value");
+
+    // Example simulated data
+    const airQualityIndex = "Good"; // Could be a numeric value like AQI 50
+    const carbonFootprint = "300 kg CO2"; // This could come from a carbon footprint calculator
+    const renewableEnergy = "45%"; // Renewable energy percentage
+    const waterConservation = "80%"; // Water conservation rate
+
+    // Updating the values dynamically
+    airQualityValue.innerText = airQualityIndex;
+    carbonFootprintValue.innerText = carbonFootprint;
+    renewableEnergyValue.innerText = renewableEnergy;
+    waterConservationValue.innerText = waterConservation;
+
+    // You could also make an API call to update these dynamically in a real-world application
+});
+
+    </script>
+</body>
+</html>
