@@ -6,63 +6,68 @@
     <title>Carbon Footprint Calculator</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-}
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
 
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-h1 {
-    text-align: center;
-}
+        h1 {
+            text-align: center;
+        }
 
-.form-group {
-    margin-bottom: 15px;
-}
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-button:hover {
-    background-color: #218838;
-}
+        button:hover {
+            background-color: #218838;
+        }
 
-.result {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #e9ecef;
-    text-align: center;
-}
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            text-align: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: 400px;
+        }
     </style>
 </head>
 <body>
@@ -84,30 +89,64 @@ button:hover {
             <button type="submit">Calculate Carbon Footprint</button>
         </form>
         <div id="result" class="result"></div>
+        <canvas id="carbonChart"></canvas>
     </div>
+
+    <!-- Add Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
         document.getElementById('calculatorForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+            event.preventDefault();
 
-    // Get input values
-    const milesDriven = parseFloat(document.getElementById('milesDriven').value);
-    const electricityUsage = parseFloat(document.getElementById('electricityUsage').value);
-    const meatConsumption = parseFloat(document.getElementById('meatConsumption').value);
+            // Get input values
+            const milesDriven = parseFloat(document.getElementById('milesDriven').value);
+            const electricityUsage = parseFloat(document.getElementById('electricityUsage').value);
+            const meatConsumption = parseFloat(document.getElementById('meatConsumption').value);
 
-    // Carbon footprint calculations
-    const carbonFromDriving = milesDriven * 0.404; // Average CO2 emissions per mile driven
-    const carbonFromElectricity = electricityUsage * 0.92; // Average CO2 emissions per kWh
-    const carbonFromMeat = meatConsumption * 2.5; // Average CO2 emissions per pound of meat
+            // Carbon footprint calculations
+            const carbonFromDriving = milesDriven * 0.404; // Average CO2 emissions per mile driven
+            const carbonFromElectricity = electricityUsage * 0.92; // Average CO2 emissions per kWh
+            const carbonFromMeat = meatConsumption * 2.5; // Average CO2 emissions per pound of meat
 
-    // Total carbon footprint
-    const totalCarbonFootprint = carbonFromDriving + carbonFromElectricity + carbonFromMeat;
+            // Total carbon footprint
+            const totalCarbonFootprint = carbonFromDriving + carbonFromElectricity + carbonFromMeat;
 
-    // Display result
-    document.getElementById('result').innerHTML = `
-        <h2>Your Estimated Carbon Footprint</h2>
-        <p>${totalCarbonFootprint.toFixed(2)} kg CO2 per week</p>
-    `;
-});
+            // Display result
+            document.getElementById('result').innerHTML = `
+                <h2>Your Estimated Carbon Footprint</h2>
+                <p>${totalCarbonFootprint.toFixed(2)} kg CO2 per week</p>
+            `;
+
+            // Prepare data for chart
+            const chartData = {
+                labels: ['Driving', 'Electricity', 'Meat Consumption'],
+                datasets: [{
+                    label: 'Carbon Footprint (kg CO2)',
+                    data: [carbonFromDriving, carbonFromElectricity, carbonFromMeat],
+                    backgroundColor: ['#ffcc00', '#28a745', '#dc3545'],
+                    borderColor: ['#ff9900', '#218838', '#c82333'],
+                    borderWidth: 1
+                }]
+            };
+
+            // Create chart
+            const ctx = document.getElementById('carbonChart').getContext('2d');
+            const carbonChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 5
+                            }
+                        }
+                    }
+                });
+        });
     </script>
 </body>
 </html>
