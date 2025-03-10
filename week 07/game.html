@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Snake Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #87CEEB; /* Sky blue */
+            margin: 0;
+        }
+
+        .game-container {
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        canvas {
+            border: 5px solid #FF4500; /* Orange red border */
+            border-radius: 10px;
+        }
+
+        .score-board {
+            font-size: 20px;
+            margin: 10px;
+            color: #4B0082; /* Indigo */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            background-color: #32CD32; /* Lime green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #228B22; /* Forest green */
+        }
+
+        .game-over {
+            color: #FF0000; /* Red */
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body ng-app="snakeGameApp" ng-controller="GameController">
+
+    <div class="game-container">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="score-board">
+            Score: <span>{{ score }}</span>
+        </div>
+        <button ng-click="startGame()">Start New Game</button>
+        <div class="game-over" ng-if="gameOver">{{ gameOverMessage }}</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <script>
+        angular.module('snakeGameApp', [])
+            .controller('GameController', function ($scope, $interval) {
+                const canvas = document.getElementById('gameCanvas');
+                const ctx = canvas.getContext('2d');
+
+                const box = 20;  // Size of one box in the grid
+                const canvasSize = canvas.width / box;  // Grid size
+
+                let snake, food, direction, score;
+                let gameInterval;
+
+                // Initialize the game
+                $scope.startGame = function () {
+                    // Reset game state
+                    snake = [{ x: 9 * box, y: 10 * box }];
+                    food = generateFood();
+                    direction = 'RIGHT';
+                    score = 0;
+                    $scope.score = score;
+                    $scope.gameOver = false;
+
+                    // Listen for keydown events
+                    document.removeEventListener('keydown', changeDirection);
+                    document.addEventListener('keydown', changeDirection);
+
+                    // Clear any existing interval and start new game loop
+                    if (gameInterval) {
+                        $interval.cancel(gameInterval); 
+                    }
+                    gameInterval = $interval(gameLoop, 100);  // Start the game loop every 100 ms
+                };
+
+                // Generate random food location
+                function generateFood() {
+                    return {
+                        x: Math.floor(Math.random() * canvasSize) * box,
+                        y: Math.floor(Math.random() * canvasSize) * box
+                    };
+                }
+
+                // Draw everything
+                function draw() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
+
+                    // Draw the snake
+                    for (let i = 0; i < snake.length; i++) {
+                        ctx.fillStyle = i === 0 ? '#FFD700' : '#FFFFFF';  // Snake head is gold, body is white
+                        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+                        ctx.strokeStyle = '#000000';  // Black border
+                        ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+                    }
+
+                    // Draw the food with a gradient
+                    const foodGradient = ctx.createRadialGradient(food.x + box / 2, food.y + box / 2, 5, food.x + box / 2, food.y + box / 2, 15);
+                    foodGradient.addColorStop(0, '#FF4500'); // Orange red
+                    foodGradient.addColorStop(1, '#FFD700'); // Gold
+                    ctx.fillStyle = foodGradient;
+                    ctx.fillRect(food.x, food.y, box, box);
+                }
+
+                // Update the snake position
+                function update() {
+                    let head = { x: snake[0].x, y: snake[0].y };
+
+                    // Move the snake
+                    if (direction === 'LEFT') head.x -= box;
+                    if (direction === 'UP') head.y -= box;
+                    if (direction === 'RIGHT') head.x += box;
+                    if (direction === 'DOWN') head.y += box;
+
+                    // Check if snake eats food
+                    if (head.x === food.x && head.y === food.y) {
+                        food = generateFood();  // Generate new food
+                        score++;  // Increment score
+                    } else {
+                        snake.pop();  // Remove last part of the snake (if not eating)
+                    }
+
+                    // Add new head to the snake
+                    snake.unshift(head);
+
+                    // Game over conditions
+                    if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || collision(head, snake)) {
+                        $interval.cancel(gameInterval);  // Stop the game loop
+                        $scope.gameOver = true;
+                        $scope.gameOverMessage = 'Game Over! Final Score: ' + score;
+                    }
+                }
+
+                // Detect collisions with the snake's own body
+                function collision(head, snakeArray) {
+                    for (let i = 1; i < snakeArray.length; i++) {
+                        if (head.x === snakeArray[i].x && head.y === snakeArray[i].y) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // Change snake direction based on keyboard input
+                function changeDirection(event) {
+                    if (event.keyCode === 37 && direction !== 'RIGHT') {
+                        direction = 'LEFT';
+                    }
+                    if (event.keyCode === 38 && direction !== 'DOWN') {
+                        direction = 'UP';
+                    }
+                    if (event.keyCode === 39 && direction !== 'LEFT') {
+                        direction = 'RIGHT';
+                    }
+                    if (event.keyCode === 40 && direction !== 'UP') {
+                        direction = 'DOWN';
+                    }
+                }
+
+                // Main game loop
+                function gameLoop() {
+                    draw();
+                    update();
+                    $scope.score = score;  // Update the score in the view
+                }
+
+                // Start the game when the page loads
+                $scope.startGame();
+            });
+    </script>
+</body>
+</html>

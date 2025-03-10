@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="surveyApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Form</title>
+    
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container for the content */
+        .container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Heading style */
+        h1 {
+            font-size: 28px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Label and Input Field */
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Styling for error messages */
+        .error {
+            color: #ff3d3d;
+            font-size: 14px;
+            margin-top: -12px;
+            margin-bottom: 15px;
+        }
+
+        /* Display submitted data */
+        .submittedData {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .submittedData p {
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body>
+
+    <div class="container" ng-controller="surveyController">
+        <h1>Survey Form</h1>
+
+        <form name="surveyForm" ng-submit="submitSurvey()" novalidate>
+            <!-- Name Input -->
+            <div>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" ng-model="survey.name" placeholder="Enter your name" required>
+                <div class="error" ng-show="surveyForm.name.$touched && surveyForm.name.$invalid">Name is required.</div>
+            </div>
+
+            <!-- Age Input -->
+            <div>
+                <label for="age">Age</label>
+                <input type="number" id="age" ng-model="survey.age" placeholder="Enter your age" required min="18" max="100">
+                <div class="error" ng-show="surveyForm.age.$touched && surveyForm.age.$invalid">Please enter a valid age between 18 and 100.</div>
+            </div>
+
+            <!-- Gender -->
+            <div>
+                <label>Gender</label>
+                <label><input type="radio" ng-model="survey.gender" value="Male" required> Male</label>
+                <label><input type="radio" ng-model="survey.gender" value="Female" required> Female</label>
+                <label><input type="radio" ng-model="survey.gender" value="Other" required> Other</label>
+                <div class="error" ng-show="surveyForm.gender.$touched && !survey.gender">Please select your gender.</div>
+            </div>
+
+            <!-- Feedback -->
+            <div>
+                <label for="feedback">How do you rate our service?</label>
+                <select ng-model="survey.feedback" id="feedback" required>
+                    <option value="">Select</option>
+                    <option value="Excellent">Excellent</option>
+                    <option value="Good">Good</option>
+                    <option value="Average">Average</option>
+                    <option value="Poor">Poor</option>
+                </select>
+                <div class="error" ng-show="surveyForm.feedback.$touched && surveyForm.feedback.$invalid">Please select a feedback option.</div>
+            </div>
+
+            <!-- Hobbies -->
+            <div>
+                <label>Hobbies (Select all that apply):</label>
+                <label><input type="checkbox" ng-model="survey.hobbies.sports"> Sports</label>
+                <label><input type="checkbox" ng-model="survey.hobbies.reading"> Reading</label>
+                <label><input type="checkbox" ng-model="survey.hobbies.traveling"> Traveling</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" ng-disabled="surveyForm.$invalid">Submit Survey</button>
+        </form>
+
+        <!-- Display Submitted Data -->
+        <div class="submittedData" ng-show="submitted">
+            <h3>Your Submitted Data:</h3>
+            <p><strong>Name:</strong> {{ survey.name }}</p>
+            <p><strong>Age:</strong> {{ survey.age }}</p>
+            <p><strong>Gender:</strong> {{ survey.gender }}</p>
+            <p><strong>Feedback:</strong> {{ survey.feedback }}</p>
+            <p><strong>Hobbies:</strong>
+                <span ng-if="survey.hobbies.sports">Sports </span>
+                <span ng-if="survey.hobbies.reading">Reading </span>
+                <span ng-if="survey.hobbies.traveling">Traveling </span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Define AngularJS module
+        var app = angular.module('surveyApp', []);
+
+        // Define AngularJS controller
+        app.controller('surveyController', function($scope) {
+            $scope.survey = {
+                name: '',
+                age: '',
+                gender: '',
+                feedback: '',
+                hobbies: {
+                    sports: false,
+                    reading: false,
+                    traveling: false
+                }
+            };
+
+            // Function to submit the survey
+            $scope.submitSurvey = function() {
+                $scope.submitted = true;
+            };
+        });
+    </script>
+
+</body>
+</html>
