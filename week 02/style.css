@@ -1,0 +1,21 @@
+/* styles.css */
+body {
+    background-color: lightblue;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: darkblue;
+    text-align: center;
+}
+
+p {
+    color: darkgreen;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
