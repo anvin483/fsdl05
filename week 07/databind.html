@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Data Binding Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output {
+            margin-top: 20px;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <h2>AngularJS Data Binding</h2>
+
+    <div class="container">
+        <!-- Two-way Data Binding with ng-model -->
+        <div class="form-group">
+            <label for="name">Enter Your Name:</label>
+            <input type="text" id="name" ng-model="user.name" placeholder="Enter your name" />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Enter Your Email:</label>
+            <input type="email" id="email" ng-model="user.email" placeholder="Enter your email" />
+        </div>
+
+        <!-- Button with Event Binding -->
+        <div class="form-group">
+            <button ng-click="submitForm()">Submit</button>
+        </div>
+
+        <!-- One-way Data Binding with Interpolation -->
+        <div class="output">
+            <h3>One-way Data Binding with Interpolation</h3>
+            <p>Hello, {{ user.name }}! Your email is {{ user.email }}.</p>
+        </div>
+
+        <!-- Using ng-bind for Data Binding -->
+        <div class="output">
+            <h3>One-way Data Binding with ng-bind</h3>
+            <p ng-bind="user.name"></p>
+            <p ng-bind="user.email"></p>
+        </div>
+
+        <!-- Data Display After Button Click (Event Binding) -->
+        <div class="output" ng-show="submitted">
+            <h3>Form Submitted</h3>
+            <p>Name: {{ user.name }}</p>
+            <p>Email: {{ user.email }}</p>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.controller('myCtrl', function($scope) {
+            // Initialize the user object
+            $scope.user = {
+                name: '',
+                email: ''
+            };
+
+            // Function to handle form submission
+            $scope.submitForm = function() {
+                $scope.submitted = true;
+            };
+        });
+    </script>
+
+</body>
+</html>

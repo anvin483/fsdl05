@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Directives Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ddd;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+    <!-- Conditional Rendering with ng-if -->
+    <div>
+        <h3>ng-if Directive</h3>
+        <button ng-click="toggleMessage()">Toggle Message</button>
+        <p ng-if="showMessage">This message is shown only if `showMessage` is true!</p>
+    </div>
+
+    <!-- Conditional Rendering with ng-show -->
+    <div>
+        <h3>ng-show Directive</h3>
+        <button ng-click="toggleShow()">Toggle Show</button>
+        <p ng-show="isVisible">This message is shown if `isVisible` is true!</p>
+    </div>
+
+    <!-- Looping with ng-repeat -->
+    <div>
+        <h3>ng-repeat Directive</h3>
+        <ul>
+            <li ng-repeat="item in items">{{ item.name }} - {{ item.age }} years old</li>
+        </ul>
+    </div>
+
+    <!-- Using ng-switch for multiple conditions -->
+    <div>
+        <h3>ng-switch Directive</h3>
+        <label>Select Day: </label>
+        <select ng-model="selectedDay">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+        </select>
+        
+        <div ng-switch="selectedDay">
+            <div ng-switch-when="Monday">Start of the week!</div>
+            <div ng-switch-when="Friday">Almost Weekend!</div>
+            <div ng-switch-when="Wednesday">Mid Week!</div>
+            <div ng-switch-default>Have a good day!</div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.controller('myCtrl', function($scope) {
+            // ng-if directive: toggle message visibility
+            $scope.showMessage = false;
+            $scope.toggleMessage = function() {
+                $scope.showMessage = !$scope.showMessage;
+            };
+
+            // ng-show directive: toggle visibility
+            $scope.isVisible = true;
+            $scope.toggleShow = function() {
+                $scope.isVisible = !$scope.isVisible;
+            };
+
+            // ng-repeat directive: example list
+            $scope.items = [
+                {name: 'John', age: 25},
+                {name: 'Jane', age: 30},
+                {name: 'Alice', age: 28},
+                {name: 'Bob', age: 35}
+            ];
+
+            // ng-switch directive: day selection
+            $scope.selectedDay = 'Monday';
+        });
+    </script>
+
+</body>
+</html>
