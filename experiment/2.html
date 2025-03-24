@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Webpage Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background: #3498db;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+        nav {
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            width: 80%;
+            background: #ecf0f1;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .centered-box {
+            width: 50%;
+            margin: 40px auto;
+            padding: 20px;
+            border: 2px solid #2c3e50;
+            text-align: center;
+            background: #ffffff;
+            border-radius: 5px;
+        }
+        footer {
+            width: 100%;
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>My Website</header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+    <div class="content">
+        <h2>Welcome to My Website</h2>
+        <p>This is a simple webpage layout with basic CSS styling.</p>
+    </div>
+    <div class="centered-box">
+        <h3>Centered Content</h3>
+        <p>This div is centered and has padding and a border.</p>
+    </div>
+    <footer>© 2025 My Website</footer>
+</body>
+</html>

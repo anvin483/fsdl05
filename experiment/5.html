@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Webpage Layout</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background: #3498db;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            width: 100%;
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 60px;
+            z-index: 999;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            width: 80%;
+            margin: 20px;
+        }
+        .sidebar {
+            background: #bdc3c7;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .main-content {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .extra-sidebar {
+            background: #dfe6e9;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        footer {
+            width: 100%;
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>My Website</header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+    <div class="container">
+        <aside class="sidebar">
+            <h3>Sidebar</h3>
+            <p>Links and additional information can go here.</p>
+        </aside>
+        <section class="main-content">
+            <h2>Main Content</h2>
+            <p>This section contains the primary content of the page.</p>
+        </section>
+        <aside class="extra-sidebar">
+            <h3>Extra Sidebar</h3>
+            <p>Additional content or ads can be placed here.</p>
+        </aside>
+    </div>
+    <footer>© 2025 My Website</footer>
+</body>
+</html>
